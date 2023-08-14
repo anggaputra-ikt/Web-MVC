@@ -1,0 +1,37 @@
+﻿@model List<Web.ViewModels.StudentViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Student</h2>
+@Html.ActionLink("+ Create", "Create", "Student", new { @class = "btn btn-success" })
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Sex</th>
+            <th>Age</th>
+            <th>Birth Date</th>
+            <th>Birth Place</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <th>@student.Id</th>
+                <td>@student.FullName</td>
+                <td>@student.Sex</td>
+                <td>@student.Age</td>
+                <td>@student.BirthDate</td>
+                <td>@student.BirthPlace</td>
+                <td>
+                    @Html.ActionLink("Edit", "Create", "Student", new { @class = "btn btn-secondary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
