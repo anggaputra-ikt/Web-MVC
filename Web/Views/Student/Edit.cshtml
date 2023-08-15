@@ -1,21 +1,21 @@
 ﻿@model Web.ViewModels.StudentViewModel
 @{
-    ViewBag.Title = "Create";
-    var formControl = new Dictionary<string, object>();
-    formControl.Add("class", "form-control");
+    ViewBag.Title = "Edit";
+    var BirthDate = Model.BirthDate.ToString("yyyy-MM-dd");
 }
 <h2>Create</h2>
-@using (@Html.BeginForm("CreatePost", "Student", FormMethod.Post))
+@using (@Html.BeginForm("EditPost", "Student", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+    @Html.Hidden("Id");
     <div class="mb-3">
         @Html.LabelFor(model => model.FullName, new { @class = "form-label" })
-        @Html.TextBoxFor(model => model.FullName, formControl)
+        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
-        @Html.LabelFor(model => model.Sex, new { Class = "form-label" })
-        @Html.DropDownListFor(model => model.Sex, new SelectList(Enum.GetValues(typeof(Web.Models.Sex))), "- Select Gender -", new { @class = "form-select" })
+        @Html.LabelFor(model => model.Sex, new { @class = "form-label" })
+        @Html.DropDownListFor(model => model.Sex, new SelectList(Enum.GetValues(typeof(Web.Models.Sex))), new { @class = "form-select" })
     </div>
     <div class="mb-3">
         @Html.LabelFor(model => model.Age, new { @class = "form-label" })
@@ -23,8 +23,12 @@
     </div>
     <div class="mb-3">
         @Html.LabelFor(model => model.BirthDate, new { @class = "form-label" })
-        @Html.TextBoxFor(model => model.BirthDate, new { type = "date", @class = "form-control" })
+        @Html.TextBoxFor(model => BirthDate, new { type = "date", @class = "form-control" })
     </div>
+    @*<div class="mb-3">
+        @Html.LabelFor(model => model.BirthDate, new { @class = "form-label" })
+        @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+    </div>*@
     <div class="mb-3">
         @Html.LabelFor(model => model.BirthPlace, new { @class = "form-label" })
         @Html.TextBoxFor(model => model.BirthPlace, new { @class = "form-control" })

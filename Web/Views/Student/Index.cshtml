@@ -1,6 +1,11 @@
-﻿@model List<Web.ViewModels.StudentViewModel>
+﻿@using Web.Models
+@model List<Web.ViewModels.StudentViewModel>
 @{
     ViewBag.Title = "Index";
+    AjaxOptions ajaxOptions = new AjaxOptions
+    {
+        UpdateTargetId = "tableStudents"
+    };
 }
 
 <h2>Student</h2>
@@ -17,21 +22,32 @@
             <th>Action</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var student in Model)
-        {
-            <tr>
-                <th>@student.Id</th>
-                <td>@student.FullName</td>
-                <td>@student.Sex</td>
-                <td>@student.Age</td>
-                <td>@student.BirthDate</td>
-                <td>@student.BirthPlace</td>
-                <td>
-                    @Html.ActionLink("Edit", "Create", "Student", new { @class = "btn btn-secondary" })
-                </td>
-            </tr>
-        }
+    @*<tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <th>@student.Id</th>
+                    <td>@student.FullName</td>
+                    <td>@student.Sex</td>
+                    <td>@student.Age</td>
+                    <td>@student.BirthDate.ToString("yyyy-MM-dd")</td>
+                    <td>@student.BirthPlace</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Student", new { id = student.Id }, new { @class = "btn btn-secondary" })
+                        @Html.ActionLink("Delete", "Delete", "Student", new { id = student.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>*@
+    <tbody id="tableStudents">
+        @Html.Action("GetStudents", new { sizeIndex = SizeIndex.All })
     </tbody>
 </table>
 
+@using (Ajax.BeginForm("GetStudent", ajaxOptions))
+{
+    <div>
+        @Html.DropDownList("sizeIndex", new SelectList(Enum.GetValues(typeof(SizeIndex))))
+        <button class="btn btn-secondary">Submit</button>
+    </div>
+}

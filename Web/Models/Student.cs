@@ -24,4 +24,12 @@ namespace Web.Models
         Male,
         Female
     }
+
+    public enum SizeIndex
+    {
+        All = 0,
+        Three = 3,
+        Five = 5,
+        Ten = 10
+    }
 }
