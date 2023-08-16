@@ -1,0 +1,11 @@
+﻿@model Web.ViewModels.StudentViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+Full Name: @Model.FullName<br />
+Sex: @Model.Sex<br />
+Age: @Model.Age<br />
+Birth Date: @Model.BirthDate.ToString("yyyy-MM-dd")<br />
+Birth Place: @Model.BirthPlace

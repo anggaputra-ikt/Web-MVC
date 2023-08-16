@@ -39,13 +39,41 @@ namespace Web.Controllers
             return View(Students);
         }
 
-        public PartialViewResult GetStudents(SizeIndex sizeIndex = SizeIndex.All)
+        [HttpPost]
+        public ActionResult GetStudents(string searchIndex, SizeIndex sizeIndex = SizeIndex.All)
         {
+            // Dapatkan context student
             var studentContext = context.Students;
+            // Konversi list
             var studentList = studentContext.ToList();
+            // Inisiasi search student dengan tipe queryable student
+            IQueryable<Student> studentSearch = null;
+            // Jika search tidak kosong
+            if (!string.IsNullOrEmpty(searchIndex))
+            {
+                // Masukan context dengan filter name sesuai search
+                studentSearch = studentContext.Where(student => student.FullName.Contains(searchIndex));
+            }
+            // Jika size index dipilih
             if (sizeIndex != SizeIndex.All)
             {
-                studentList = studentContext.Take((int)sizeIndex).ToList();
+                // Jika search tidak kosong
+                if (studentSearch != null)
+                {
+                    // Ambil data dengan filter search dan jumlah sesuai size index
+                    studentList = studentSearch.Take((int)sizeIndex).ToList();
+                }
+                else
+                {
+                    // Ambil data sesuai size index
+                    studentList = studentContext.Take((int)sizeIndex).ToList();
+                }
+            }
+            // Jika search tidak kosong
+            if (studentSearch != null)
+            {
+                // Konversi list
+                studentList = studentSearch.ToList();
             }
             var studenViewModels = new List<StudentViewModel>();
             foreach (var student in studentList)
@@ -62,11 +90,6 @@ namespace Web.Controllers
                 studenViewModels.Add(studentViewModel);
             }
             return PartialView("_GetStudents", studenViewModels);
-        }
-
-        public ActionResult GetStudent(SizeIndex sizeIndex = SizeIndex.All)
-        {
-            return View(sizeIndex);
         }
 
         public ActionResult Create()
@@ -134,6 +157,23 @@ namespace Web.Controllers
             context.Students.Remove(findStudent);
             context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Details(long? id)
+        {
+            if (id < 1) return RedirectToAction("Index");
+            var findStudent = context.Students.FirstOrDefault(s => s.Id == id);
+            if (findStudent == null) return RedirectToAction("Index");
+            var studentViewModel = new StudentViewModel()
+            {
+                Id = findStudent.Id,
+                Age = findStudent.Age,
+                BirthDate = findStudent.BirthDate,
+                BirthPlace = findStudent.BirthPlace,
+                FullName = findStudent.FullName,
+                Sex = findStudent.Sex
+            };
+            return View(studentViewModel);
         }
     }
 }

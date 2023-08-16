@@ -4,8 +4,17 @@
     ViewBag.Title = "Index";
     AjaxOptions ajaxOptions = new AjaxOptions
     {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
         UpdateTargetId = "tableStudents"
     };
+    var dropdownList = new SelectList(Enum.GetValues(typeof(SizeIndex))
+        .OfType<Enum>()
+        .Select(item => new SelectListItem
+        {
+            Value = (Convert.ToInt32(item)).ToString(),
+            Text = Convert.ToInt32(item) == 0 ? "All" : Convert.ToInt32(item).ToString()
+        }), "Value", "Text");
 }
 
 <h2>Student</h2>
@@ -22,7 +31,8 @@
             <th>Action</th>
         </tr>
     </thead>
-    @*<tbody>
+    @*Tanpa Ajax Helper
+        <tbody>
             @foreach (var student in Model)
             {
                 <tr>
@@ -40,14 +50,19 @@
             }
         </tbody>*@
     <tbody id="tableStudents">
-        @Html.Action("GetStudents", new { sizeIndex = SizeIndex.All })
+        @Html.Partial("_GetStudents", Model)
     </tbody>
 </table>
 
-@using (Ajax.BeginForm("GetStudent", ajaxOptions))
+@using (Ajax.BeginForm("GetStudents", "Student", ajaxOptions))
 {
-    <div>
-        @Html.DropDownList("sizeIndex", new SelectList(Enum.GetValues(typeof(SizeIndex))))
+    <div class="d-flex gap-3">
+        <div>
+            @Html.TextBox("searchIndex", null, new { @class = "form-control", placeholder = "Search", autocomplete = "off" })
+        </div>
+        <div>
+            @Html.DropDownList("sizeIndex", dropdownList, new { @class = "form-select", autocomplete = "off" })
+        </div>
         <button class="btn btn-secondary">Submit</button>
     </div>
 }
