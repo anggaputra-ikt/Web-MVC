@@ -50,11 +50,11 @@
             }
         </tbody>*@
     <tbody id="tableStudents">
-        @Html.Partial("_GetStudents", Model)
+        @Html.Partial("_GetStudent", Model)
     </tbody>
 </table>
 
-@using (Ajax.BeginForm("GetStudents", "Student", ajaxOptions))
+@using (Ajax.BeginForm("GetStudentAsync", "Student", ajaxOptions))
 {
     <div class="d-flex gap-3">
         <div>

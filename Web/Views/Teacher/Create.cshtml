@@ -1,25 +1,24 @@
-﻿@model Web.ViewModels.StudentViewModel
+﻿@model Web.ViewModels.TeacherViewModel
 @{
-    ViewBag.Title = "Create Student";
-    var formControl = new Dictionary<string, object>();
-    formControl.Add("class", "form-control");
+    ViewBag.Title = "Create Teacher";
 }
-<h2>Create Student</h2>
-@using (@Html.BeginForm("CreatePost", "Student", FormMethod.Post))
+
+<h2>Create Teacher</h2>
+@using (Html.BeginForm("CreatePost", "Teacher", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="mb-3">
         @Html.LabelFor(model => model.FullName, new { @class = "form-label" })
-        @Html.TextBoxFor(model => model.FullName, formControl)
+        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
-        @Html.LabelFor(model => model.Sex, new { Class = "form-label" })
-        @Html.DropDownListFor(model => model.Sex, new SelectList(Enum.GetValues(typeof(Web.Models.Sex))), "- Select Gender -", new { @class = "form-select" })
+        @Html.LabelFor(model => model.Sex, new { @class = "form-label" })
+        @Html.DropDownListFor(model => model.Sex, new SelectList(Enum.GetValues(typeof(Web.Models.Sex))), "- Select Gender -", new { @class = "form-control" })
     </div>
     <div class="mb-3">
         @Html.LabelFor(model => model.Age, new { @class = "form-label" })
-        @Html.TextBoxFor(model => model.Age, new { @type = "number", @class = "form-control" })
+        @Html.TextBoxFor(model => model.Age, new { type = "number", @class = "form-control" })
     </div>
     <div class="mb-3">
         @Html.LabelFor(model => model.BirthDate, new { @class = "form-label" })

@@ -1,0 +1,11 @@
+﻿@model List<Web.ViewModels.TeacherViewModel>
+@{
+    ViewBag.Title = "Teacher";
+}
+
+<h2>Teacher</h2>
+@Html.ActionLink("+ Create", "Create", "Teacher", new { @class = "btn btn-success" })
+@foreach (var teacher in Model)
+{
+    <p>@teacher.FullName</p>
+}

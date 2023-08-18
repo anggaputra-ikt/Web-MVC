@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Web.DAL;
@@ -18,9 +19,9 @@ namespace Web.Controllers
 
         public List<StudentViewModel> Students { get; set; }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var students = context.Students.ToList();
+            var students = await context.Students.ToListAsync();
             var studenViewModels = new List<StudentViewModel>();
             foreach (var student in students)
             {
@@ -40,12 +41,12 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetStudents(string searchIndex, SizeIndex sizeIndex = SizeIndex.All)
+        public async Task<ActionResult> GetStudentAsync(string searchIndex, SizeIndex sizeIndex = SizeIndex.All)
         {
             // Dapatkan context student
             var studentContext = context.Students;
             // Konversi list
-            var studentList = studentContext.ToList();
+            var studentList = await studentContext.ToListAsync();
             // Inisiasi search student dengan tipe queryable student
             IQueryable<Student> studentSearch = null;
             // Jika search tidak kosong
@@ -61,19 +62,19 @@ namespace Web.Controllers
                 if (studentSearch != null)
                 {
                     // Ambil data dengan filter search dan jumlah sesuai size index
-                    studentList = studentSearch.Take((int)sizeIndex).ToList();
+                    studentList = await studentSearch.Take((int)sizeIndex).ToListAsync();
                 }
                 else
                 {
                     // Ambil data sesuai size index
-                    studentList = studentContext.Take((int)sizeIndex).ToList();
+                    studentList = await studentContext.Take((int)sizeIndex).ToListAsync();
                 }
             }
             // Jika search tidak kosong
             if (studentSearch != null)
             {
                 // Konversi list
-                studentList = studentSearch.ToList();
+                studentList = await studentSearch.ToListAsync();
             }
             var studenViewModels = new List<StudentViewModel>();
             foreach (var student in studentList)
@@ -89,7 +90,7 @@ namespace Web.Controllers
                 };
                 studenViewModels.Add(studentViewModel);
             }
-            return PartialView("_GetStudents", studenViewModels);
+            return PartialView("_GetStudent", studenViewModels);
         }
 
         public ActionResult Create()
@@ -98,15 +99,15 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreatePost(StudentViewModel studentModel)
+        public ActionResult CreatePost(StudentViewModel studentViewModel)
         {
             var student = new Student()
             {
-                FullName = studentModel.FullName,
-                Sex = studentModel.Sex,
-                Age = studentModel.Age,
-                BirthDate = studentModel.BirthDate,
-                BirthPlace = studentModel.BirthPlace
+                FullName = studentViewModel.FullName,
+                Sex = studentViewModel.Sex,
+                Age = studentViewModel.Age,
+                BirthDate = studentViewModel.BirthDate,
+                BirthPlace = studentViewModel.BirthPlace
             };
             context.Students.Add(student);
             context.SaveChanges();

@@ -127,19 +127,23 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202308141024399_Initial.cs" />
-    <Compile Include="Migrations\202308141024399_Initial.designer.cs">
-      <DependentUpon>202308141024399_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202308180748331_Initial.cs" />
+    <Compile Include="Migrations\202308180748331_Initial.designer.cs">
+      <DependentUpon>202308180748331_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CourseViewModel.cs" />
+    <Compile Include="ViewModels\TeacherViewModel.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -196,8 +200,12 @@
     <Content Include="Views\Student\Index.cshtml" />
     <Content Include="Views\Student\Create.cshtml" />
     <Content Include="Views\Student\Edit.cshtml" />
-    <Content Include="Views\Shared\_GetStudents.cshtml" />
+    <Content Include="Views\Shared\_GetStudent.cshtml" />
     <Content Include="Views\Student\Details.cshtml" />
+    <Content Include="Views\Teacher\Create.cshtml" />
+    <Content Include="Views\Teacher\Index.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Course\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -230,8 +238,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202308141024399_Initial.resx">
-      <DependentUpon>202308141024399_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202308180748331_Initial.resx">
+      <DependentUpon>202308180748331_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

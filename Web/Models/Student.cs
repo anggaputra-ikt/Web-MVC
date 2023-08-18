@@ -8,16 +8,45 @@ using System.Web;
 
 namespace Web.Models
 {
-    public class Student
+    public class Identity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+    }
+    public interface IPerson
+    {
+        string FullName { get; set; }
+        Sex Sex { get; set; }
+        int Age { get; set; }
+        DateTime BirthDate { get; set; }
+        string BirthPlace { get; set; }
+    }
+    public class Student : Identity, IPerson
+    {
         public string FullName { get; set; }
         public Sex Sex { get; set; }
         public int Age { get; set; }
         public DateTime BirthDate { get; set; }
         public string BirthPlace { get; set; }
+    }
+
+    public class Teacher : Identity, IPerson
+    {
+        public string FullName { get; set; }
+        public Sex Sex { get; set; }
+        public int Age { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string BirthPlace { get; set; }
+    }
+
+    public class Course : Identity
+    {
+        public string Title { get; set; }
+        public long TeacherId { get; set; }
+
+        [ForeignKey(nameof(TeacherId))]
+        public Teacher Teacher { get; set; }
     }
 
     public enum Sex
@@ -33,4 +62,5 @@ namespace Web.Models
         Five = 5,
         Ten = 10
     }
+
 }
